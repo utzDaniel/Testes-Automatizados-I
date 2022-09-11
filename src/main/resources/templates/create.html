@@ -1,0 +1,46 @@
+<html>
+	<head th:replace="~{base :: head}"></head>
+	<body>
+
+		<div class="container">
+			<div th:replace="~{base :: titulo('Cadastrar Filme')}"></div>
+	
+			<div class="card mt-3">
+				<form action="#" th:object="${filme}" class="card-body" th:action="@{/save}" method="POST">
+					<div class="form-group">
+						<label for="nome">Nome</label>
+						<input th:field="*{nome}" th:errorClass="is-invalid" class="form-control" placeholder="nome do filme"/>
+						<small>Informa qual o nome do produto.</small>
+						<div class="invalid-feedback" th:errors="*{nome}">
+							Erros do nome do filme
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="generos">Generos</label>
+						<input th:field="*{generos}" th:errorClass="is-invalid" class="form-control" placeholder="generos do filme"/>
+						<small>Infome o generos do filme separando com virgula.</small>
+						<div class="invalid-feedback" th:errors="*{generos}">
+							Erros no generos do filme
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="ano">Ano</label>
+						<input type="number" th:field="*{ano}" th:errorClass="is-invalid" class="form-control" placeholder="ano do filme"/>
+						<div class="invalid-feedback" th:errors="*{ano}">
+							Erros no ano do filme
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="atores">Atores</label>
+						<input th:field="*{atores}" th:errorClass="is-invalid" class="form-control" placeholder="atores do filme"/>
+						<small>Infome os atores do filme separando com virgula.</small>
+						<div class="invalid-feedback" th:errors="*{atores}">
+							Erros no atores do filme
+						</div>
+					</div>
+					<button class="btn btn-primary" type="submit">Cadastrar</button>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

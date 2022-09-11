@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="~{base :: head}"></head>
+
+<body>
+<div th:replace="~{base :: titulo('Lista de Filmes')}"></div>
+
+<table class="table">
+    <thead class="table-dark">
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Generos</th>
+        <th scope="col">Ano</th>
+        <th scope="col">Atores</th>
+        <th scope="col">Opção</th>
+    </tr>
+    </thead>
+    <tbody class="table-secondary">
+    <tr th:each="rem : ${filmes}">
+        <th name="id" th:text="${rem.id}"></th>
+        <td name="nome" th:text="${rem.nome}"></td>
+        <td name="generos" th:text="${rem.generos}"></td>
+        <td name="ano" th:text="${rem.ano}"></td>
+        <td name="atores" th:text="${rem.atores}"></td>
+        <td>
+            <a class="btn btn-danger" role="button" th:href="@{/filmes/remove/{id}(id=${rem.id})}">Deletar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a href="/create"><button class="btn btn-outline-secondary my-2 my-sm-0">Adicionar Novo Filme</button></a>
+<!--<td><a class="btn btn-danger" role="button" th:href="${(#mvc.url('EC#removerFilme').arg(0, rem.id)).build()}">Deletar</a></td>-->
+</body>
+</html>
