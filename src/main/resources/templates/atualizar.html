@@ -1,16 +1,18 @@
 <html>
-<head th:replace="~{base :: head('Cadastrar Filme')}"></head>
-
+<head th:replace="~{base :: head('Atualizar Filme')}"></head>
 <body>
 
 <div class="container">
-    <div th:replace="~{base :: titulo('Cadastrar Filme')}"></div>
+    <div th:replace="~{base :: titulo('Atualizar Filme')}"></div>
 
     <div class="card mt-3">
-        <form th:action="@{/save}" method="POST" th:object="${filme}" class="card-body" >
+        <form th:action="@{/update}" method="POST" th:object="${filme}" class="card-body">
+            <div class="form-group">
+                <input type="hidden" th:field="*{id}">
+            </div>
             <div class="form-group">
                 <label for="nome">Nome</label>
-                <input th:field="*{nome}" th:errorClass="is-invalid" class="form-control" placeholder="nome do filme"/>
+                <input th:field="*{nome}" th:errorClass="is-invalid" class="form-control" placeholder="nome do filme" />
                 <small>Informa qual o nome do filme.</small>
                 <div class="invalid-feedback" th:errors="*{nome}">
                     Erros do nome do filme
@@ -18,7 +20,7 @@
             </div>
             <div class="form-group">
                 <label for="genero">Genero</label>
-                <select th:field="*{genero}" th:errorClass="is-invalid" class="form-control form-select">
+                <select th:field="*{genero}" th:errorClass="is-invalid" class="form-control form-select"  >
                     <option th:each="generos : ${T(com.ada.springtestfilmes.domain.Genero).values()}"
                             th:value="${generos}" th:text="${generos.label}"></option>
                 </select>
@@ -29,7 +31,7 @@
             </div>
             <div class="form-group">
                 <label for="ano">Ano</label>
-                <input type="number" th:field="*{ano}" th:errorClass="is-invalid" class="form-control"
+                <input type="number" th:field="*{ano}"  th:errorClass="is-invalid" class="form-control"
                        placeholder="ano do filme"/>
                 <small>Informa o ano de lançamento do filme.</small>
                 <div class="invalid-feedback" th:errors="*{ano}">
@@ -42,14 +44,14 @@
                     <div th:each="ator, atorStat: *{atores}">
                         <select th:field="*{atores[__${atorStat.index}__]}" class="form-control form-select">
                             <option th:each="ator: ${atores}" th:value="${ator.id}"
-                                    th:text="${ator.nome}">
+                                    th:text="${ator.nome}" >
                             </option>
                         </select>
                     </div>
                 </td>
                 <small>Informe os atores do filme.</small>
             </div>
-            <button class="btn btn-primary" type="submit" >Cadastrar</button>
+            <button class="btn btn-primary" type="submit" >Atualizar</button>
         </form>
     </div>
 </div>

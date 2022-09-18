@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
-<head th:replace="~{base :: head}"></head>
+<head th:replace="~{base :: head('Lista de Filmes')}"></head>
+
 
 <body>
 <div th:replace="~{base :: titulo('Lista de Filmes')}"></div>
@@ -10,26 +11,31 @@
     <tr>
         <th scope="col">Id</th>
         <th scope="col">Nome</th>
-        <th scope="col">Generos</th>
+        <th scope="col">Genero</th>
         <th scope="col">Ano</th>
         <th scope="col">Atores</th>
         <th scope="col">Opção</th>
     </tr>
     </thead>
     <tbody class="table-secondary">
-    <tr th:each="rem : ${filmes}">
-        <th name="id" th:text="${rem.id}"></th>
-        <td name="nome" th:text="${rem.nome}"></td>
-        <td name="generos" th:text="${rem.generos}"></td>
-        <td name="ano" th:text="${rem.ano}"></td>
-        <td name="atores" th:text="${rem.atores}"></td>
+    <tr th:each="filme : ${filmes}">
+        <th name="id" th:text="${filme.id}"></th>
+        <td name="nome" th:text="${filme.nome}"></td>
+        <td name="genero" th:text="${filme.genero.label}"></td>
+        <td name="ano" th:text="${filme.ano}"></td>
+        <td name="atores">
+        <span th:each="ator, status: ${filme.atores}" th:name="${status.index}" th:text="${ator.nome}+' '"></span>
+        </td>
         <td>
-            <a class="btn btn-danger" role="button" th:href="@{/filmes/remove/{id}(id=${rem.id})}">Deletar</a>
+            <a class="btn btn-danger" role="button" th:href="@{/remover/{id}(id=${filme.id})}" >Deletar</a>
+            <a class="btn btn-primary" role="button" th:href="@{/atualizar/{id}(id=${filme.id})}" >Atualizar</a>
         </td>
     </tr>
     </tbody>
 </table>
 <a href="/create"><button class="btn btn-outline-secondary my-2 my-sm-0">Adicionar Novo Filme</button></a>
+<a href="/create-ator"><button class="btn btn-outline-secondary my-2 my-sm-0">Adicionar Novo Ator</button></a>
 <!--<td><a class="btn btn-danger" role="button" th:href="${(#mvc.url('EC#removerFilme').arg(0, rem.id)).build()}">Deletar</a></td>-->
 </body>
 </html>
+

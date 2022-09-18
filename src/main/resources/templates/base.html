@@ -1,7 +1,8 @@
-<head th:fragment="head">
+<head th:fragment="head(valor)">
 	<meta charset="UTF-8" />
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">	
 	<link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
+	<title th:text="${valor}"></title>
 </head>
 
 <div th:fragment="titulo(valor)" class="jumbotron mb-0">
