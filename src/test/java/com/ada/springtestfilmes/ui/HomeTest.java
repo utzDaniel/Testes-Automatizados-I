@@ -23,6 +23,7 @@ public class HomeTest {
     @DisplayName("Deve ser possível inserir 3 atores e cadastrar um filme")
     public void inserirFilme() {
         webDriver = new ChromeDriver();
+        
 
         webDriver.get("http://localhost:8080/create-ator");
 

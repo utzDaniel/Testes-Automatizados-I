@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -178,14 +180,15 @@ public class FilmesControllerTest {
         }
         Assertions.assertEquals(HttpStatus.NOT_FOUND, filmeResposta.getStatusCode());
     }
-/*Não conseguir fazer o put
+
     @Test
     @DisplayName("Deve ser possível atualizar um filme existente por api")
     public void testAtualizarPorApi() {
         List<Ator> listAtor = new ArrayList<>();
-        listAtor.add(atorService.buscaPorId(1L));
-        listAtor.add(atorService.buscaPorId(2L));
-        listAtor.add(atorService.buscaPorId(3L));
+        List<Ator> listarAtores = atorService.listarAtores();
+        listAtor.add(listarAtores.get(0));
+        listAtor.add(listarAtores.get(1));
+        listAtor.add(listarAtores.get(2));
 
         Filme filme = Filme.builder()
                 .nome("Teste").ano(2018)
@@ -197,30 +200,28 @@ public class FilmesControllerTest {
                 .postForEntity(String.format("http://localhost:%s/filmes",port),
                         filme, Filme.class);
 
-        Long id = addFilme.getBody().getId();
 
         List<Ator> listAtorAtualizar = new ArrayList<>();
-        listAtorAtualizar.add(atorService.buscaPorId(3L));
-        listAtorAtualizar.add(atorService.buscaPorId(1L));
-        listAtorAtualizar.add(atorService.buscaPorId(2L));
+        listAtorAtualizar.add(listarAtores.get(2));
+        listAtorAtualizar.add(listarAtores.get(0));
+        listAtorAtualizar.add(listarAtores.get(1));
 
         Filme filmeAtualizar = Filme.builder()
-                .id(id)
+                .id(addFilme.getBody().getId())
                 .nome("TesteAtualizar").ano(2020)
                 .atores(listAtorAtualizar)
                 .genero(Genero.DRAMA)
                 .build();
 
-        this.testRestTemplate
-                .put(String.format("http://localhost:%s/filmes",port),filmeAtualizar);
+        HttpEntity<Filme> filmeHttpEntity = new HttpEntity<>(filmeAtualizar);
+        ResponseEntity<Filme> filmeRespostaAtualizado =
+                this.testRestTemplate.exchange(String.format("http://localhost:%s/filmes",port),
+                HttpMethod.PUT,filmeHttpEntity,Filme.class);
 
-        ResponseEntity<Filme> filmeRespostaAtualizado = this.testRestTemplate
-                .getForEntity(String.format("http://localhost:%s/filmes/%s",port,id),
-                        Filme.class);
 
+        Assertions.assertEquals(filmeAtualizar.getId(), filmeRespostaAtualizado.getBody().getId());
         Assertions.assertEquals(filmeAtualizar.getNome(), filmeRespostaAtualizado.getBody().getNome());
         Assertions.assertEquals(filmeAtualizar.getAno(), filmeRespostaAtualizado.getBody().getAno());
         Assertions.assertEquals(filmeAtualizar.getGenero(), filmeRespostaAtualizado.getBody().getGenero());
-
-    }*/
+    }
 }

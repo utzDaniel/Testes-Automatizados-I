@@ -2,6 +2,7 @@ package com.ada.springtestfilmes.controller;
 
 
 import com.ada.springtestfilmes.domain.Ator;
+import com.ada.springtestfilmes.domain.Filme;
 import com.ada.springtestfilmes.repository.AtorRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -123,7 +126,7 @@ public class AtorControllerTest {
         }
         Assertions.assertEquals(HttpStatus.NOT_FOUND, atorResposta.getStatusCode());
     }
-/*Não conseguir fazer o put
+
     @Test
     @DisplayName("Deve ser possível atualizar um ator existente por api")
     public void testAtualizarPorApi() {
@@ -135,19 +138,17 @@ public class AtorControllerTest {
                 .postForEntity(String.format("http://localhost:%s/ator",port),
                         ator, Ator.class);
 
-        Long id = addAtor.getBody().getId();
-
         Ator atorAtualizar = Ator.builder()
+                .id(addAtor.getBody().getId())
                 .nome("atorAtualizado")
                 .build();
 
-        this.testRestTemplate
-                .put(String.format("http://localhost:%s/ator",port),atorAtualizar);
+        HttpEntity<Ator> atorHttpEntity = new HttpEntity<>(atorAtualizar);
+        ResponseEntity<Ator> atorRespostaAtualizado =
+                this.testRestTemplate.exchange(String.format("http://localhost:%s/ator",port),
+                        HttpMethod.PUT,atorHttpEntity,Ator.class);
 
-        ResponseEntity<Ator> atorRespostaAtualizado = this.testRestTemplate
-                .getForEntity(String.format("http://localhost:%s/ator/%s",port,id),
-                        Ator.class);
-
+        Assertions.assertEquals(atorAtualizar.getId(), atorRespostaAtualizado.getBody().getId());
         Assertions.assertEquals(atorAtualizar.getNome(), atorRespostaAtualizado.getBody().getNome());
-    }*/
+    }
 }
